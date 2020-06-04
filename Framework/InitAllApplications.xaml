@@ -3,6 +3,7 @@
     <x:Property Name="in_Credential" Type="InArgument(x:String)" />
     <x:Property Name="out_Passowrd" Type="OutArgument(ss:SecureString)" />
     <x:Property sap2010:Annotation.AnnotationText="Dictionary structure to store configuration data of the process (settings, constants and assets)." Name="out_Username" Type="OutArgument(x:String)" />
+    <x:Property Name="filepath" Type="InArgument(x:String)" />
   </x:Members>
   <mva:VisualBasic.Settings>
     <x:Null />
@@ -65,6 +66,8 @@
       <Variable x:TypeArguments="x:String" Name="struser" />
       <Variable x:TypeArguments="ss:SecureString" Name="password" />
       <Variable x:TypeArguments="x:String" Name="admin" />
+      <Variable x:TypeArguments="x:String" Default="[inputfile]" Name="inputfile" />
+      <Variable x:TypeArguments="x:String" Name="username" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
@@ -73,17 +76,15 @@
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
     <ui:LogMessage DisplayName="Log message (Initialize applications)" sap:VirtualizedContainerService.HintSize="560,94.6666666666667" sap2010:WorkflowViewState.IdRef="LogMessage_1" Level="Trace" Message="[&quot;Opening applications...&quot;]" />
-    <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="UIDemo_Credential" DisplayName="Get Credential" sap:VirtualizedContainerService.HintSize="560,22" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[password]" Username="[admin]" />
-    <ui:OpenApplication ApplicationWindow="{x:Null}" Arguments="{x:Null}" TimeoutMS="{x:Null}" WorkingDirectory="{x:Null}" DisplayName="Open Application 'UIDemo.exe  UiDemo'" FileName="[out_Username(&quot;UIDemo_ApplicationPath&quot;).ToString]" sap:VirtualizedContainerService.HintSize="560,1095.33333333333" sap2010:WorkflowViewState.IdRef="OpenApplication_1" InformativeScreenshot="b6a96c8e21671dfffab2708c7f731b2d" Selector="&lt;wnd app='uidemo.exe' cls='HwndWrapper*' title='UiDemo' /&gt;">
+    <ui:GetRobotCredential TimeoutMS="{x:Null}" AssetName="UIDemo_Credential" DisplayName="Get Credential" sap:VirtualizedContainerService.HintSize="560,22" sap2010:WorkflowViewState.IdRef="GetRobotCredential_1" Password="[password]" Username="[username]" />
+    <ui:OpenApplication ApplicationWindow="{x:Null}" Arguments="{x:Null}" TimeoutMS="{x:Null}" WorkingDirectory="{x:Null}" DisplayName="Open Application 'UIDemo.exe  UiDemo'" FileName="[filepath]" sap:VirtualizedContainerService.HintSize="560,1095.33333333333" sap2010:WorkflowViewState.IdRef="OpenApplication_1" InformativeScreenshot="b6a96c8e21671dfffab2708c7f731b2d" Selector="&lt;wnd app='uidemo.exe' cls='HwndWrapper*' title='UiDemo' /&gt;">
       <ui:OpenApplication.Body>
         <ActivityAction x:TypeArguments="x:Object">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="x:Object" Name="ContextTarget" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="526,952.666666666667" sap2010:WorkflowViewState.IdRef="Sequence_10">
+          <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="526,949.333333333333" sap2010:WorkflowViewState.IdRef="Sequence_10">
             <Sequence.Variables>
-              <Variable x:TypeArguments="ss:SecureString" Name="password" />
-              <Variable x:TypeArguments="x:String" Name="username" />
               <Variable x:TypeArguments="x:Boolean" Name="loggedinsucessfully" />
             </Sequence.Variables>
             <sap:WorkflowViewStateService.ViewState>
@@ -91,7 +92,7 @@
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <ui:TypeInto ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" EmptyField="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" DisplayName="Type Into 'editable text  user'" sap:VirtualizedContainerService.HintSize="484,134" sap2010:WorkflowViewState.IdRef="TypeInto_1" Text="[username]">
+            <ui:TypeInto ClickBeforeTyping="{x:Null}" DelayBefore="{x:Null}" DelayBetweenKeys="{x:Null}" DelayMS="{x:Null}" SendWindowMessages="{x:Null}" SimulateType="{x:Null}" Activate="True" DisplayName="Type Into 'editable text  user'" EmptyField="True" sap:VirtualizedContainerService.HintSize="484,134" sap2010:WorkflowViewState.IdRef="TypeInto_1" Text="[username]">
               <ui:TypeInto.Target>
                 <ui:Target ClippingRegion="{x:Null}" Element="{x:Null}" InformativeScreenshot="ec33886ea146bf54fa625ad8095e9f5f" Selector="&lt;ctrl automationid='user' /&gt;">
                   <ui:Target.TimeoutMS>
@@ -149,7 +150,7 @@
                 </ui:Target>
               </ui:UiElementExists.Target>
             </ui:UiElementExists>
-            <If Condition="[loggedinsucessfully]" sap:VirtualizedContainerService.HintSize="484,248.666666666667" sap2010:WorkflowViewState.IdRef="If_1">
+            <If Condition="[loggedinsucessfully]" sap:VirtualizedContainerService.HintSize="484,245.333333333333" sap2010:WorkflowViewState.IdRef="If_1">
               <If.Then>
                 <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="334,94.6666666666667" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="Info" Message="[&quot;You are now logged in&quot;]" />
               </If.Then>
